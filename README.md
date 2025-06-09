@@ -139,7 +139,22 @@ def configure_api_client(argo_token):
 
 ### 2️⃣ Workflow Submission
 
-The `submit_workflow` function uses the SDK to launch workflows with customized parameters:
+The `submit_workflow` function uses the Argo SDK to submit a workflow based on a template:
+
+```python
+# Create the workflow submission request
+submit_request = IoArgoprojWorkflowV1alpha1WorkflowSubmitRequest(
+    resource_kind="WorkflowTemplate",
+    resource_name=workflow_template_name,
+    submit_options=submit_opts,
+    workflow_template_ref=template_ref
+)
+
+# Submit the workflow to Argo server
+api_response = api_instance.submit_workflow(namespace=namespace, body=submit_request)
+```
+
+The function then handles the submitted workflow and returns useful metadata:
 
 ```python
 def submit_workflow(api_instance, submit_request, namespace):
